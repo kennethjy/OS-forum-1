@@ -4,7 +4,7 @@ import random
 import time
 from queue import Queue
 
-STACK_SIZE = 100
+BUFFER_SIZE = 100
 
 
 # Stack class
@@ -13,7 +13,7 @@ class Stack:
         self.stack = []
 
     def push(self, item):
-        if len(self.stack) >= 100:
+        if len(self.stack) >= BUFFER_SIZE:
             return False
         self.stack.append(item)
         return True
@@ -33,6 +33,8 @@ def number_generator(stack):
     global gen_turn, gen_arr
     i = 0
     max_count = 10000
+    lower_bound = 1
+    upper_bound = 10000
     filename = "all.txt"
     f = open(filename, 'w')
     f.close()
@@ -42,11 +44,11 @@ def number_generator(stack):
                 with open(filename, 'a') as f:
                     f.write(f"{gen_arr.pop()}\n")
             pass
-        num = random.randint(1, 1000)
+        num = random.randint(lower_bound, upper_bound)
         while stack.push(num):
             i += 1
             gen_arr.append(num)
-            num = random.randint(1, 1000)
+            num = random.randint(lower_bound, upper_bound)
             if i >= max_count:
                 break
         gen_turn = False
